@@ -1671,9 +1671,10 @@ async function
   _user_level =
     _user_level_check(
       _user_level);
-  _deployments_dir_type =
-    typeof(
-      _deployments_dir);
+  const
+    _deployments_dir_type =
+      typeof(
+        _deployments_dir);
   if ( _deployments_dir_type === "undefined" ) {
     _msg =
       "Deployments directory undefined, " +

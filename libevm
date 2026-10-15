@@ -1654,6 +1654,10 @@ async function
     _deployments_dir,
     _app_name,
     _user_level) {
+  let
+    _deployments_dir_set;
+  _deployments_dir_set =
+    false;
   _user_level =
     _user_level_check(
       _user_level);
@@ -1689,10 +1693,19 @@ async function
       0);
     throw _msg;
   }
-  _evm_contract_deployments_dir =
-    _get(
-      "_evm_contract",
-      "deployments_dir");
+  if ( _deployments_dir_set ) {
+  }
+  try {
+    _evm_contracts_tools =
+      _get(
+        "_evm_contracts",
+        "tools");
+    _evm_contracts_tools =
+      await _evm_contracts_tools_check(
+        _evm_contract_tools)
+  const
+    _evm_contract_deployments_dir =
+      _evm_contracts_tools._evm_contract_deployments_dir;
   try {
     _evm_contract_deployments_dir =
       await _evm_contract_deployments_dir_check(
@@ -1712,8 +1725,8 @@ async function
   }
   const
     _evm_contract_deployments_dir_args = [
-      _dir_current_name,
-      _user_defined
+      _app_name,
+      _user_level
     ];
   try {
     const

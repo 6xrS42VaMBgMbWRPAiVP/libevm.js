@@ -1694,58 +1694,59 @@ async function
     throw _msg;
   }
   if ( _deployments_dir_set ) {
-  }
-  try {
-    _evm_contracts_tools =
-      _get(
-        "_evm_contracts",
-        "tools");
-    _evm_contracts_tools =
-      await _evm_contracts_tools_check(
-        _evm_contract_tools)
-  const
-    _evm_contract_deployments_dir =
-      _evm_contracts_tools._evm_contract_deployments_dir;
-  try {
-    _evm_contract_deployments_dir =
-      await _evm_contract_deployments_dir_check(
-        _evm_contract_deployments_dir);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error getting '_evm_contract_deployments_dir' " +
-      "function.";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _error);
-    throw _error;
-  }
-  const
-    _evm_contract_deployments_dir_args = [
-      _app_name,
-      _user_level
-    ];
-  try {
+    try {
+      _evm_contracts_tools =
+        _get(
+          "_evm_contracts",
+          "tools");
+      _evm_contracts_tools =
+        await _evm_contracts_tools_check(
+          _evm_contract_tools)
     const
-      _target_dir =
-        await _evm_contract_deployments_dir.apply(
-          null,
-          _evm_contract_deployments_dir_args);
+      _evm_contract_deployments_dir =
+        _evm_contracts_tools._evm_contract_deployments_dir;
+    try {
+      _evm_contract_deployments_dir =
+        await _evm_contract_deployments_dir_check(
+          _evm_contract_deployments_dir);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error getting '_evm_contract_deployments_dir' " +
+        "function.";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
+    }
+    const
+      _evm_contract_deployments_dir_args = [
+        _app_name,
+        _user_level
+      ];
+    try {
+      const
+        _deployments_dir =
+          await _evm_contract_deployments_dir.apply(
+            null,
+            _evm_contract_deployments_dir_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_evm_contract_deployments_dir' " +
+        "with arguments:";
+      _echo2(
+        _evm_contract_deployments_dir_args);
+      _echo2(
+        _error);
+      throw _error;
+    }
   }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_evm_contract_deployments_dir' " +
-      "with arguments:";
-    _echo2(
-      _evm_contract_deployments_dir_args);
-    _echo2(
-      _error);
-    throw _error;
-  }
+  return _deployments_dir;
 }
 
 async function
@@ -2096,6 +2097,7 @@ export {
   _contract_compiler_output_get,
   _contract_setup_auto_detect,
   _contract_version_auto_detect,
+  _deployments_dir_check,
   _evm_chains_db_path_get,
   _evm_chain_info_get,
   _evm_contracts_tools_check,
@@ -2106,6 +2108,7 @@ export {
   _libevm_url_parse,
   _rpc_backend_get,
   _rpc_get,
+  _user_level_check,
   _wallet_address_check,
   _wallet_overrides_set
 };
@@ -2125,6 +2128,8 @@ export {
 //     _contract_setup_auto_detect,
 //   _contract_version_auto_detect:
 //     _contract_version_auto_detect,
+//   _deployments_dir_check:
+//     _deployments_dir_check,
 //   _evm_chains_db_path_get:
 //     _evm_chains_db_path_get,
 //   _evm_chain_info_get:

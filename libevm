@@ -1039,6 +1039,8 @@ async function
     _msg =
       "Function '_evm_contracts_tools' " +
       "undefined, importing.";
+    _msg_info(
+      _msg);
     _import =
       true;
   }
@@ -1047,6 +1049,8 @@ async function
       _msg =
         "Function '_evm_contracts_tools' " +
         "is an empty string, importing.";
+      _msg_info(
+        _msg);
       _import =
         true;
     }
@@ -1071,14 +1075,15 @@ async function
         "is an empty object, importing.";
       _import =
         true;
+      _msg_info(
+        _msg);
     }
   }
   if ( _import ) {
     try {
-      const
-        _evm_contracts_tools =
-          await _require(
-            "evm-contracts-tools");
+      _evm_contracts_tools =
+        await _require(
+          "evm-contracts-tools");
     }
     catch(
       _error) {
@@ -1730,7 +1735,7 @@ async function
         _evm_contracts_tools._evm_contract_deployments_dir;
     try {
       _evm_contract_deployments_dir =
-        await _evm_contract_deployments_dir_check(
+        await _evm_contract_deployments_dir(
           _evm_contract_deployments_dir);
     }
     catch(

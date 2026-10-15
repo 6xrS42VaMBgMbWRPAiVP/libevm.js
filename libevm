@@ -1229,6 +1229,7 @@ async function
       _msg);
     _version_get =
       true;
+  }
   else if ( _version_type === "string" ) {
     if ( _version.length < 1 ) {
       _msg =

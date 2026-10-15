@@ -1687,7 +1687,7 @@ async function
     if ( _deployments_dir.length < 1 ) {
       _msg =
         "Deployments directory is an empty string, " +
-        "auto-detecting.
+        "auto-detecting.";
       _msg_info(
         _msg);
       _deployments_dir_set =
@@ -1712,6 +1712,16 @@ async function
       _evm_contracts_tools =
         await _evm_contracts_tools_check(
           _evm_contract_tools)
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error importing 'evm-contracts-tools'.";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
     const
       _evm_contract_deployments_dir =
         _evm_contracts_tools._evm_contract_deployments_dir;

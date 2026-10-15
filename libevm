@@ -1268,7 +1268,16 @@ async function
       _contracts_package_module =
         await _require(
           _contracts_package);
-      }
+    }
+    catch(
+      _error) {
+      _msg =
+        "Found no contract package " +
+        `'${_contracts_package}'.`;
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
     }
   }
   try {
@@ -1301,7 +1310,7 @@ async function
     _app_check(
       _app);
   const
-    _configuration_format =
+    _configuration_format_check =
       _evm_contracts_tools._configuration_format_check;
   _configuration_format =
     _configuration_format_check(
@@ -1353,7 +1362,7 @@ async function
       _contract_name,
       _contract_address,
       _network,
-      _user_level
+      _user_level,
       _deployments_dir,
       _config_file_path,
       _configuration_format,
@@ -1396,7 +1405,7 @@ async function
     _msg;
   const
     _fields = [
-      "address"
+      "address",
       "version"
     ];
   for ( _field of _fields ) {
@@ -1668,7 +1677,7 @@ async function
   if ( _deployments_dir_type === "undefined" ) {
     _msg =
       "Deployments directory undefined, " +
-      "auto-detecting.
+      "auto-detecting.";
     _msg_info(
       _msg);
     _deployments_dir_set =

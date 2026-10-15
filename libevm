@@ -1665,7 +1665,9 @@ async function
     _app_name,
     _user_level) {
   let
-    _deployments_dir_set;
+    _deployments_dir_set,
+    _evm_contracts_tools,
+    _msg;
   _deployments_dir_set =
     false;
   _user_level =
@@ -1712,7 +1714,7 @@ async function
           "tools");
       _evm_contracts_tools =
         await _evm_contracts_tools_check(
-          _evm_contract_tools)
+          _evm_contracts_tools)
     }
     catch(
       _error) {

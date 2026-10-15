@@ -316,12 +316,13 @@ function
         ".json");
   const
     _path =
-      _path_join(
-        [_deployments_dir,
-         _contract_name,
-         _network_chain_id,
-         _version,
-         _file_name]);
+      _path_join([
+        _deployments_dir,
+        _contract_name,
+        _network_chain_id,
+        _version,
+        _file_name
+      ]);
   return _path;
 }
 
@@ -1481,6 +1482,11 @@ async function
 }
 
 async function
+  _libevm_app_contract_setup() {
+  true;
+}
+
+async function
   _wallet_address_check(
     _address,
     _wallet_seed,
@@ -1593,6 +1599,150 @@ async function
     }
   }
   return _address;
+}
+
+async function
+  _user_level_check(
+    _user_level) {
+  let
+    _user_level_set;
+  const
+    _default =
+      "n";
+  _user_level_set =
+    false;
+  const
+    _user_level_type =
+      typeof(
+        _user_level);
+  if ( _user_level_type === "undefined" ) {
+    _msg =
+      "User-level variable is undefined, " +
+      "setting default ('n')."
+    _msg_info(
+      _msg);
+    _user_level_set =
+      true;
+  }
+  else if ( _user_level_type === "string" ) {
+    if ( _user_level.length < 1 ) {
+      _user_level_set =
+        true;
+      _msg =
+        "User-level variable is an empty " +
+        "string, setting default ('n')."
+      _msg_info(
+        _msg);
+    }
+  }
+  else {
+    _msg =
+      `Unknown value '${_user_level}' ` +
+      "for variable 'user_level'.";
+    _msg_info(
+      _msg);
+  }
+  if ( _user_level_set ) {
+    _user_level =
+      _default;
+  }
+  return _user_level;
+}
+
+async function
+  _deployments_dir_check(
+    _deployments_dir,
+    _app_name,
+    _user_level) {
+  _user_level =
+    _user_level_check(
+      _user_level);
+  _deployments_dir_type =
+    typeof(
+      _deployments_dir);
+  if ( _deployments_dir_type === "undefined" ) {
+    _msg =
+      "Deployments directory undefined, " +
+      "auto-detecting.
+    _msg_info(
+      _msg);
+    _deployments_dir_set =
+      true;
+  }
+  else if ( _deployments_dir_type === "string" ) {
+    if ( _deployments_dir.length < 1 ) {
+      _msg =
+        "Deployments directory is an empty string, " +
+        "auto-detecting.
+      _msg_info(
+        _msg);
+      _deployments_dir_set =
+        true;
+    }
+  }
+  else {
+    _msg =
+      `Unknown type '${_deployments_dir_type}' ` +
+      "for variable 'deployments_dir'";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  _evm_contract_deployments_dir =
+    _get(
+      "_evm_contract",
+      "deployments_dir");
+  try {
+    _evm_contract_deployments_dir =
+      await _evm_contract_deployments_dir_check(
+        _evm_contract_deployments_dir);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error getting '_evm_contract_deployments_dir' " +
+      "function.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  const
+    _evm_contract_deployments_dir_args = [
+      _dir_current_name,
+      _user_defined
+    ];
+  try {
+    const
+      _target_dir =
+        await _evm_contract_deployments_dir.apply(
+          null,
+          _evm_contract_deployments_dir_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_evm_contract_deployments_dir' " +
+      "with arguments:";
+    _echo2(
+      _evm_contract_deployments_dir_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
+}
+
+async function
+  _libevm_app_overrides_set(
+    _app_name) {
+  _set_override(
+    "user",
+    "level",
+    "n");
+  // _deployments_dir_auto_detect();
 }
 
 async function

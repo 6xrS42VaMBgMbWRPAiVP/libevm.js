@@ -2,7 +2,7 @@
   "name":
     "libevm",
   "version":
-    "0.0.46",
+    "0.0.47",
   "description":
     "Library providing useful functions to write native applications interacting with EVM-compatible blockchain networks.",
   "funding": {
@@ -82,7 +82,7 @@
     "evm-chains-info":
       "^0.0.39",
     "evm-wallet":
-      "npm:evm-wallet.js@^0.0.100",
+      "npm:evm-wallet.js@^0.0.103",
     "ws":
       "^8.21.0",
     "yargs":
@@ -92,7 +92,7 @@
     "evm-chains-info":
       "^0.0.39",
     "evm-wallet":
-      "npm:evm-wallet.js@^0.0.100",
+      "npm:evm-wallet.js@^0.0.103",
     "libevm":
       "./libevm"
   },

@@ -1132,7 +1132,9 @@ async function
   let
     _contract_address_get,
     _contracts_package_get,
+    _contracts_package_module,
     _contracts_fs_get,
+    _evm_contracts_tools,
     _msg;
   _contract_address_get =
     false;
@@ -1186,8 +1188,6 @@ async function
   }
   if ( _contract_address_get ) {
     _contracts_package_get =
-      false;
-    _contracts_fs_get =
       false;
     const
       _contracts_package_module_check_args = [
@@ -1271,7 +1271,7 @@ async function
             "tools");
         _evm_contracts_tools =
           await _evm_contracts_tools_check(
-            _evm_contract_tools)
+            _evm_contract_tools);
       }
       catch(
         _error) {
@@ -1283,7 +1283,7 @@ async function
           0);
         _echo2(
           _evm_contracts_tools);
-        echo2(
+        _echo2(
           _error);
         throw _error;
       }
@@ -1309,7 +1309,7 @@ async function
           _deployments_dir,
           _contract_name,
           _network,
-          _network_id,
+          _network,
           _configuration_format,
           _user_level
         ];
@@ -1328,19 +1328,20 @@ async function
           _msg,
           0);
         _echo2(
-          _config_file_path_checks_args);
+          _config_file_path_check_args);
         _echo2(
           _error);
         throw _error;
       }
       const
-        _version_check =
-          _evm_contracts_tools._version_check;
+        _evm_contract_deployment_address =
+          _evm_contracts_tools._evm_contract_deployment_address;
       const
         _contract_address =
           undefined;
       const
-        _version_check_args = [
+        _evm_contract_deployment_address_args = [
+          _contract_address,
           _version,
           _app,
           _contract_name,
@@ -1352,21 +1353,21 @@ async function
           _configuration_format,
         ];
       try {
-        _version =
-          _version_check.apply(
+        _contract_address =
+          await _evm_contract_deployment_address.apply(
             null,
-            _version_check_args);
+            _evm_contract_deployment_address_args);
       }
       catch(
         _error) {
         _msg =
-          "Error running '_version_check' " +
+          "Error running '_evm_contract_deployment_address' " +
           "with arguments:";
         _msg_error(
           _msg,
           0);
         _echo2(
-          _version_check_args);
+          _evm_contract_deployment_address_args);
         _echo2(
           _error);
         throw _error;
@@ -1381,8 +1382,11 @@ async function
     _contracts_package,
     _app) {
   let
-    _contracts_package_get =
-      false;
+    _contracts_package_get,
+    _evm_contracts_tools,
+    _msg;
+  _contracts_package_get =
+    false;
   const
     _contracts_package_type =
       typeof(
@@ -1415,7 +1419,7 @@ async function
       0);
     _echo2(
       _msg);
-    throw _error;
+    throw _msg;
   }
   if ( _contracts_package_get ) {
     try {
@@ -1425,7 +1429,7 @@ async function
           "tools");
       _evm_contracts_tools =
         await _evm_contracts_tools_check(
-          _evm_contract_tools)
+          _evm_contract_tools);
     }
     catch(
       _error) {
@@ -1437,7 +1441,7 @@ async function
         0);
       _echo2(
         _evm_contracts_tools);
-      echo2(
+      _echo2(
         _error);
       throw _error;
     }
@@ -1454,9 +1458,10 @@ async function
           _app_check(
             _app);
         try {
-          _module =
-            await _require(
-              `${_app}-contracts`);
+          const
+            _module =
+              await _require(
+                `${_app}-contracts`);
         }
         catch(
           _error) {
@@ -1516,8 +1521,16 @@ async function
   }
   else {
     _msg =
-      "Unknown type for contracts package module " +
-      `'${_contracts_package}'.`;
+      `Unknown type '${_cotracts_package_module_type}' ` +
+      `for contracts package module ` +
+      `'${_contracts_package_module}' corresponding ` +
+      `to module '${_contracts_package}'.`;
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _contracts_package_module);
+    throw _msg;
   }
   if ( _contracts_package_module_get ) {
      const
@@ -1601,10 +1614,8 @@ async function
       _msg,
       0);
     _echo2(
-      _msg);
-    _echo2(
-      _error);
-    throw _error;
+      _version);
+    throw _msg;
   }
   if ( _version_get ) {
     _contracts_package_get =
@@ -1667,7 +1678,7 @@ async function
             "tools");
         _evm_contracts_tools =
           await _evm_contracts_tools_check(
-            _evm_contract_tools)
+            _evm_contract_tools);
       }
       catch(
         _error) {
@@ -1705,7 +1716,7 @@ async function
           _deployments_dir,
           _contract_name,
           _network,
-          _network_id,
+          _network,
           _configuration_format,
           _user_level
         ];
@@ -1784,6 +1795,7 @@ async function
     _contracts_package,
     _configuration_format) {
   let
+    _contract_address,
     _field,
     _msg;
   const
@@ -1864,11 +1876,11 @@ async function
       _error);
     throw _error;
   }
-  const
-    _contract_address =
-      _get(
-        _contract_short_name,
-        "address");
+  // const
+  //   _contract_address =
+  //     _get(
+  //       _contract_short_name,
+  //       "address");
   _msg =
     `Selected contract '${_contract_name}' ` +
     `version '${_contract_version}' deployed ` +
@@ -2001,6 +2013,7 @@ function
   _user_level_check(
     _user_level) {
   let
+    _msg,
     _user_level_set;
   const
     _default =
@@ -2014,7 +2027,7 @@ function
   if ( _user_level_type === "undefined" ) {
     _msg =
       "User-level variable is undefined, " +
-      "setting default ('n')."
+      "setting default ('n').";
     _msg_info(
       _msg);
     _user_level_set =
@@ -2026,7 +2039,7 @@ function
         true;
       _msg =
         "User-level variable is an empty " +
-        "string, setting default ('n')."
+        "string, setting default ('n').";
       _msg_info(
         _msg);
     }
@@ -2101,7 +2114,7 @@ async function
           "tools");
       _evm_contracts_tools =
         await _evm_contracts_tools_check(
-          _evm_contracts_tools)
+          _evm_contracts_tools);
     }
     catch(
       _error) {
@@ -2167,16 +2180,16 @@ async function
     _app_name) {
   let
     _deployments_dir,
-    _msg,
-    _user_level;
+    _msg;
   _override_set(
     "user",
     "level",
     "n");
-  _user_level =
-    _get(
-      "user",
-      "level");
+  const
+    _user_level =
+      _get(
+        "user",
+        "level");
   try {
     const
       _deployments_dir_check_args = [
@@ -2202,7 +2215,7 @@ async function
   _override_set(
     "deployments",
     "dir",
-    _deployments_dir)
+    _deployments_dir);
   _override_set(
     "configuration",
     "format",

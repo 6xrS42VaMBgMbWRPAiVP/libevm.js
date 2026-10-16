@@ -1155,6 +1155,7 @@ async function
       _contract_address_get =
         true;
     }
+  }
   else {
     _msg =
       "Unknown type for contract address " +
@@ -1352,7 +1353,6 @@ async function
         throw _error;
       }
     }
-
   }
   return _contract_address;
 }
@@ -1812,12 +1812,13 @@ async function
       _error);
     throw _error;
   }
-  // _contract_version =
+  // _contract_address =
   //   _get(
   //     _contract_short_name,
-  //     "version");
+  //     "address");
   const
-    _contract_address_auto_detect_args = [
+    _contract_address_check_args = [
+      _contract_address,
       _app,
       _contract_name,
       _contract_short_name,
@@ -1827,20 +1828,21 @@ async function
       _deployments_dir
     ];
   try {
-    await _contract_address_auto_detect.apply(
-      null,
-      _contract_address_auto_detect_args);
+    _contract_address =
+      await _contract_address_check.apply(
+        null,
+        _contract_address_check_args);
   }
   catch(
     _error) {
     _msg =
-      "Error running '_contract_address_auto_detect' " +
+      "Error running '_contract_address_check' " +
       "with arguments:";
     _msg_error(
       _msg,
       0);
     _echo2(
-      _contract_address_auto_detect_args);
+      _contract_address_check_args);
     _echo2(
       _error);
     throw _error;
@@ -2482,7 +2484,7 @@ async function
 // ES6 module exports
 
 export {
-  _contract_address_auto_detect,
+  _contract_address_check,
   _contract_abi_get,
   _contract_bytecode_get,
   _contract_compiler_output_get,

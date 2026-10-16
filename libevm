@@ -1358,11 +1358,6 @@ async function
 }
 
 async function
-  _contract_version_auto_detect() {
-    true;
-}
-
-async function
   _contracts_package_check(
     _contracts_package,
     _app) {
@@ -1807,7 +1802,7 @@ async function
       _msg,
       0);
     _echo2(
-      _contract_version_auto_detect_args);
+      _contract_version_check_args);
     _echo2(
       _error);
     throw _error;
@@ -2145,11 +2140,43 @@ async function
 async function
   _libevm_app_overrides_set(
     _app_name) {
+  let
+    _deployments_dir,
+    _user_level;
   _set_override(
     "user",
     "level",
     "n");
-  // _deployments_dir_auto_detect();
+  _user_level =
+    _get(
+      "user",
+      "level");
+  try {
+    const
+      _deployments_dir_check_args = [
+        _deployments_dir,
+        _app_name,
+        _user_level
+      ];
+    _deployments_dir =
+      _deployments_dir_check.apply(
+        null,
+        _deployments_dir_check_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_deployments_dir_check' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    throw _error;
+  }
+  _override_set(
+    "deployments",
+    "dir",
+    _deployments_dir)
 }
 
 async function
@@ -2495,6 +2522,7 @@ export {
   _evm_chain_info_get,
   _evm_contracts_tools_check,
   _libevm_app_cmdline_parse,
+  _libevm_app_overrides_set,
   _libevm_cmdline_parse,
   _libevm_app_global_variables,
   _libevm_global_variables,
@@ -2511,16 +2539,16 @@ export {
 // module.exports = {
 //   _contract_abi_get:
 //     _contract_abi_get,
-//   _contract_address_auto_detect:
-//     _contract_address_auto_detect,
+//   _contract_address_check:
+//     _contract_address_check,
 //   _contract_bytecode_get:
 //     _contract_bytecode_get,
 //   _contract_compiler_output_get:
 //     _contract_compiler_output_get,
 //   _contract_setup_auto_detect:
 //     _contract_setup_auto_detect,
-//   _contract_version_auto_detect:
-//     _contract_version_auto_detect,
+//   _contract_version_check:
+//     _contract_version_check,
 //   _deployments_dir_check:
 //     _deployments_dir_check,
 //   _evm_chains_db_path_get:

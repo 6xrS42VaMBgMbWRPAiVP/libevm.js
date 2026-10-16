@@ -1256,6 +1256,7 @@ async function
   }
   else if ( _contracts_package_module_type === "object" ) {
     true;
+  }
   else {
     _msg =
       "Unknown type for contracts package module " +
@@ -1288,12 +1289,6 @@ async function
     }
   }
   return _contracts_package_module;
-}
-
-async function
-  _contracts_package_version_get(
-  ) {
-
 }
 
 async function
@@ -1524,6 +1519,7 @@ async function
     _app,
     _contract_name,
     _contract_short_name,
+    _contract_version,
     _network,
     _user_level,
     _deployments_dir,
@@ -1545,6 +1541,7 @@ async function
   }
   const
     _contract_version_check_args = [
+      _contract_version,
       _app,
       _deployments_dir,
       _contract_name,
@@ -1555,14 +1552,15 @@ async function
       _user_level
     ];
   try {
-    await _contract_version_auto_detect.apply(
-      null,
-      _contract_version_auto_detect_args);
+    _contract_version =
+      await _contract_version_check.apply(
+        null,
+        _contract_version_check_args);
   }
   catch(
     _error) {
     _msg =
-      "Error running '_contract_version_auto_detect' " +
+      "Error running '_contract_version_check' " +
       "with arguments:";
     _msg_error(
       _msg,

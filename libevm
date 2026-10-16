@@ -1099,26 +1099,111 @@ async function
 }
 
 async function
-  _contract_address_auto_detect(
+  _contract_address_check(
+    _contract_address,
     _app,
+    _contracts_package,
     _contract_name,
     _contract_short_name,
     _network,
     _contract_version,
     _user_level,
     _deployments_dir) {
-
-      _app,
-      _contract_name,
-      _contract_short_name,
-      _network,
-      _contract_version,
-      _user_level,
-      _deployments_dir
+  let
+    _contract_address_get,
+    _contracts_package_get,
+    _contracts_fs_get,
+    _msg;
+  _contract_address_get =
+    false;
+  const
+    _contract_address_type =
+      typeof(
+        _contract_address_type);
+  if ( _contract_address_type === "undefined" ) {
+    _msg =
+      "Contract address is undefined, " +
+      "auto-detecting.";
+    _msg_info(
+      _msg);
+    _contract_address_get =
+      true;
+  }
+  else if ( _contract_address_type === "string" ) {
+    if ( _contract_address.length < 1 ) {
+      _msg =
+        "Contract address is an empty string, " +
+        "auto-detecting.";
+      _msg_info(
+        _msg);
+      _contract_address_get =
+        true;
+    }
+  }
+  else if ( _contract_address_type === "object" ) {
+    const
+      _contract_address_keys =
+        Object.keys(
+          _contract_address);
+    if ( _contract_address_keys.length < 1 ) {
+      _msg =
+        "Contract address is an empty object, " +
+        "auto-detecting.";
+      _msg_info(
+        _msg);
+      _contract_address_get =
+        true;
+    }
+  else {
+    _msg =
+      "Unknown type for contract address " +
+      `${_contract_address}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _contract_address_get ) {
+    _contracts_package_get =
+      false;
+    _contracts_fs_get =
+      false;
+    const
+      _contracts_package_module_check_args = [
+        _contracts_package_module,
+        _contracts_package
+      ];
+    try {
+      _contracts_package_module =
+        await _contracts_package_module_check.apply(
+          null,
+          _contracts_package_module_check_args);
+      _contracts_package_get =
+        true;
+      _contracts_fs_get =
+        false;
+    }
+    catch(
+      _error) {
+      _msg =
+        "Found no contract package module " +
+        `'${_contracts_package}'.`;
+      _msg_warning(
+        _msg);
+      _echo2(
+        _error);
+      _contracts_fs_get =
+        true;
+      // throw _error;
+    }
+  
+  }
+  return _contract_address;
 }
 
 async function
   _contract_version_auto_detect() {
+    true;
 }
 
 async function
@@ -1571,11 +1656,10 @@ async function
       _error);
     throw _error;
   }
-  const
-    _contract_version =
-      _get(
-        _contract_short_name,
-        "version");
+  // _contract_version =
+  //   _get(
+  //     _contract_short_name,
+  //     "version");
   const
     _contract_address_auto_detect_args = [
       _app,

@@ -1753,11 +1753,15 @@ async function
         _user_level
       ];
     try {
-      const
-        _deployments_dir =
-          await _evm_contract_deployments_dir.apply(
-            null,
-            _evm_contract_deployments_dir_args);
+      _deployments_dir =
+        await _evm_contract_deployments_dir.apply(
+          null,
+          _evm_contract_deployments_dir_args);
+      _msg =
+        "Obtained deployments directory " +
+        `'${_deployments_dir}'.`;
+      _msg_info(
+        _msg);
     }
     catch(
       _error) {

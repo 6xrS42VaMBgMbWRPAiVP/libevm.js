@@ -1134,6 +1134,7 @@ async function
     _contracts_package_get,
     _contracts_package_module,
     _contracts_fs_get,
+    _config_file_path,
     _evm_contracts_tools,
     _msg;
   _contract_address_get =
@@ -1217,6 +1218,46 @@ async function
         true;
       // throw _error;
     }
+    if ( _contracts_package_get ||
+         _contracts_fs_get ) {
+      const
+        _contract_version_check_args = [
+          _contract_version,
+          _app,
+          _deployments_dir,
+          _contract_name,
+          _contract_short_name,
+          _network,
+          _configuration_format,
+          _contracts_package,
+          _user_level
+        ];
+      try {
+        _contract_version =
+          await _contract_version_check.apply(
+            null,
+            _contract_version_check_args);
+          "";
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_contract_version_check' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
+      }
+    }
+    else {
+      _msg =
+        "Selected auto-detecting contract " +
+        "address but both the '_contract_package_get' " +
+        "and the '_contracts_fs_get' switches are off.";
+      _msg_info(
+        _msg);
+    }
     if ( _contracts_package_get ) {
       const
         _data_get =
@@ -1271,7 +1312,7 @@ async function
             "tools");
         _evm_contracts_tools =
           await _evm_contracts_tools_check(
-            _evm_contract_tools);
+            _evm_contracts_tools);
       }
       catch(
         _error) {
@@ -1337,20 +1378,16 @@ async function
         _evm_contract_deployment_address =
           _evm_contracts_tools._evm_contract_deployment_address;
       const
-        _contract_address =
-          undefined;
-      const
         _evm_contract_deployment_address_args = [
-          _contract_address,
-          _version,
+          [ _network ],             // networks
+          [ _network ],             // networks ids
+          "n",                      // all networks
           _app,
           _contract_name,
-          _contract_address,
-          _network,
+          _contract_version,
           _user_level,
-          _deployments_dir,
-          _config_file_path,
           _configuration_format,
+          _deployments_dir
         ];
       try {
         _contract_address =
@@ -1678,7 +1715,7 @@ async function
             "tools");
         _evm_contracts_tools =
           await _evm_contracts_tools_check(
-            _evm_contract_tools);
+            _evm_contracts_tools);
       }
       catch(
         _error) {
@@ -1735,7 +1772,7 @@ async function
           _msg,
           0);
         _echo2(
-          _config_file_path_checks_args);
+          _config_file_path_check_args);
         _echo2(
           _error);
         throw _error;

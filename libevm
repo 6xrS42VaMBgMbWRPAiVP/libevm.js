@@ -1448,7 +1448,7 @@ async function
   }
   else {
     _msg =
-      `Unknown type '${_contracts_package_type}' `
+      `Unknown type '${_contracts_package_type}' ` +
       "for variable '_contracts_package' (correct " +
       "type 'string').";
     _msg_error(
@@ -1466,7 +1466,7 @@ async function
           "tools");
       _evm_contracts_tools =
         await _evm_contracts_tools_check(
-          _evm_contract_tools);
+          _evm_contracts_tools);
     }
     catch(
       _error) {
@@ -1558,7 +1558,7 @@ async function
   }
   else {
     _msg =
-      `Unknown type '${_cotracts_package_module_type}' ` +
+      `Unknown type '${_contracts_package_module_type}' ` +
       `for contracts package module ` +
       `'${_contracts_package_module}' corresponding ` +
       `to module '${_contracts_package}'.`;
@@ -1656,8 +1656,6 @@ async function
   }
   if ( _version_get ) {
     _contracts_package_get =
-      false;
-    _contracts_fs_get =
       false;
     const
       _contracts_package_module_check_args = [

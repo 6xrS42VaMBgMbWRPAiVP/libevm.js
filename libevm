@@ -95,6 +95,12 @@ const
   _msg_info =
     _libcrash._msg_info;
 /* global
+     _msg_warning:
+       writable */
+const
+  _msg_warning =
+    _libcrash._msg_warning;
+/* global
      _override_set:
        writable */
 const
@@ -1474,9 +1480,11 @@ async function
 async function
   _contracts_package_module_check(
     _contracts_package_module,
-    _contracts_package) {
+    _contracts_package,
+    _app) {
   let
-    _contracts_package_module_get;
+    _contracts_package_module_get,
+    _msg;
   _contracts_package_module_get =
     false;
   const
@@ -1519,7 +1527,7 @@ async function
       ];
     try {
       _contracts_package =
-        _contracts_package_check.apply(
+        await _contracts_package_check.apply(
           null,
           _contracts_package_check_args);
       _contracts_package_module =
@@ -1606,7 +1614,8 @@ async function
     const
       _contracts_package_module_check_args = [
         _contracts_package_module,
-        _contracts_package
+        _contracts_package,
+        _app
       ];
     try {
       _contracts_package_module =
@@ -1670,7 +1679,7 @@ async function
           0);
         _echo2(
           _evm_contracts_tools);
-        echo2(
+        _echo2(
           _error);
         throw _error;
       }
